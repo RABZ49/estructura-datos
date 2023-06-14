@@ -15,9 +15,9 @@ public class Metodos {
     Nodo head;
     Scanner entrada;
 
-    public Metodos(Nodo head, Scanner entrada) {
-        this.head = head;
-        this.entrada = entrada;
+    public Metodos() {
+        this.head = null;
+        this.entrada = new Scanner(System.in);
     }
 
     public int menu() {
@@ -34,42 +34,95 @@ public class Metodos {
     }
 
     public void insertar() {
-        
-        Nodo nuevo = leerData();
-        Nodo actual = head;
+        Nodo nuevo = leerDatos();
         if (listaVacia()) {
             head = nuevo;
+        } else if (nuevo.Id < head.Id) {
+            nuevo.sig = head;
+            head = nuevo;
         } else {
-            
-            if (nuevo.id < head.id) {
-                nuevo.sig = head;
-                head = nuevo;
-                while ((actual.sig != null)&&(nuevo.id > actual.sig.id)) {                    
-                    
-                }
-
+            Nodo actual = head;
+            while ((actual.sig != null) && (nuevo.Id > actual.sig.Id)) {
+                actual = actual.sig;
             }
+            nuevo.sig = actual.sig;
+            actual.sig = nuevo;
         }
     }
 
-    public Nodo leerData() {
-        int id;
+    public Nodo leerDatos() {
+        int Id;
         String nombre;
         char sexo;
-        float[] calificaciones = new float[3];
-        System.out.println("ingrese id: ");
-        id = entrada.nextInt();
+        float[] calif = new float[3];
+        System.out.println("INGRESE ID: ");
+        Id = entrada.nextInt();
         entrada.nextLine();
-        System.out.println("ingrese Nombre: ");
+        System.out.println("INGRESE EL NOMBRE: ");
         nombre = entrada.nextLine();
-        System.out.println("Ingrese sexo: ");
-        sexo = entrada.nextLine().charAt(0);
+        System.out.println("INGRESE SEXO: ");
+        sexo = entrada.nextLine().toUpperCase().charAt(0);
         for (int i = 0; i < 3; i++) {
-            System.out.println("ingrese la calificacion:");
-            calificaciones[i] = entrada.nextFloat();
-
+            System.out.println("INGRESE LA CALIFICACION " + (i + 1) + " : ");
+            calif[i] = entrada.nextFloat();
         }
-        Nodo nuevo = new Nodo(calificaciones, head, id, nombre, sexo);
+        Nodo nuevo = new Nodo(calif, Id, nombre, sexo);
         return nuevo;
+    }
+
+    public void listar() {
+        if (listaVacia()) {
+            System.out.println("No existen elementos...");
+
+        } else {
+            Nodo actual = head;
+            while (actual != null) {
+                System.out.println("=======\n" + " id: " + actual.Id
+                        + "\nNombre: "
+                        + actual.nombre + "\n=======\n");
+                actual = actual.sig;
+            }
+        }
+
+    }
+
+    public void reporte(char x) {
+
+        Nodo actual = head;
+        while (actual != null) {
+            if (actual.sexo == x) {
+                if (actual.getProm() >= 7) {
+                    System.out.println("El estudiante: " + actual.nombre
+                            + " está APROBADO");
+                } else {
+                    System.out.println("El estudiante: " + actual.nombre
+                            + " está REPROBADO");
+                }
+            }
+            actual = actual.sig;
+        }
+    }
+
+    public void eliminar() {
+        int Id;
+        System.out.println("Id del estudinate a eliminar: ");
+        Id = entrada.nextInt();
+        if (listaVacia()) {
+            System.out.println("Lista Vacias........");
+        } else {
+            if (Id == head.Id) {
+                head = head.sig;
+            } else {
+                Nodo actual = head;
+                while ((actual.sig != null) && (actual.sig.Id != Id)) {
+                    actual = actual.sig;
+                }
+                if (actual.sig == null) {
+                    System.out.println("El estudinate no existe........");
+                } else {
+                    actual.sig = actual.sig.sig;
+                }
+            }
+        }
     }
 }

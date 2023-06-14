@@ -8,22 +8,23 @@ package enlacecompleto;
  *
  * @author UTPL
  */
-public class Nodo extends Persona{
-    float[] calificaciones;
+public class Nodo extends Persona {
+
+    float[] calif;
     Nodo sig;
 
-    public Nodo(float[] calificaciones, Nodo sig, int ide, String nom, char sex) {
-        super(ide, nom, sex);
-        this.calificaciones = calificaciones;
-        this.sig = sig;
-    }
-    public float calcularPromedio(){
-        float suma = 0;
-        for (float nota : calificaciones) {
-            
-        }
-    
+    public Nodo(float[] calif, int Id, String nombre, char sexo) {
+        super(Id, nombre, sexo);
+        this.calif = calif;
+        this.sig = null;
     }
 
-    
+    public float getProm() {
+        float suma = 0;
+        for (float nota : calif) {
+            suma += nota;
+        }
+        return suma / calif.length;
+    }
+
 }

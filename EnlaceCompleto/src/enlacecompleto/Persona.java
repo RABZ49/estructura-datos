@@ -9,16 +9,14 @@ package enlacecompleto;
  * @author UTPL
  */
 public class Persona {
-  
-    int id;
+
+    int Id;
     String nombre;
     char sexo;
 
-        public Persona(int ide, String nom, char sex) {
-            id = ide;
-            nombre = nom;
-            sexo = sex;
-        }
-    
+    public Persona(int Id, String nombre, char sexo) {
+        this.Id = Id;
+        this.nombre = nombre;
+        this.sexo = sexo;
     }
-
+}
